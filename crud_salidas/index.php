@@ -10,11 +10,12 @@ $inicio = ($pagina_actual - 1) * $registros_por_pagina;
 //sentencia para busqueda de productos
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$sql = "SELECT * FROM salidas";
+$sql = "SELECT salidas.*, productos.producto AS nombre_producto
+FROM salidas
+LEFT JOIN productos ON salidas.producto_id = productos.id";
 if (!empty($search)) {
-    $sql .= " WHERE id LIKE '%$search%' OR producto_id LIKE '%$search%' OR cantidad LIKE '%$search% OR motivo LIKE '%$search% OR fecha LIKE '%$search%'" ;
+    $sql .= " WHERE salidas.id LIKE '%$search%' OR productos.producto LIKE '%$search%' OR cantidad LIKE '%$search% OR salidas.motivo LIKE '%$search% OR salidas.fecha LIKE '%$search%'" ;
 }
-
 // Sentencia para contar el total de registros
 $sql_total = $sql;
 $result_total = $conn->query($sql_total);
@@ -87,7 +88,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                         </td>
 
                         <td>
-                            <?= $row['producto_id']?>
+                            <?= $row['nombre_producto']?>
                         </td>
 
                         <td>

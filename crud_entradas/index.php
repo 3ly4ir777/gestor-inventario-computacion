@@ -10,9 +10,12 @@ $inicio = ($pagina_actual - 1) * $registros_por_pagina;
 //sentencia para busqueda de productos
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$sql = "SELECT * FROM entradas";
+$sql = "SELECT entradas.*, productos.producto AS nombre_producto, proveedores.nombre AS nombre_proveedor
+FROM entradas
+LEFT JOIN productos ON entradas.producto_id = productos.id
+LEFT JOIN proveedores ON entradas.proveedor_id = proveedores.id";
 if (!empty($search)) {
-    $sql .= " WHERE id LIKE '%$search%' OR producto_id LIKE '%$search%' OR cantidad LIKE '%$search% OR proveedor_id LIKE '%$search% OR fecha LIKE '%$search%'" ;
+    $sql .= " WHERE entradas.id LIKE '%$search%' OR productos.producto LIKE '%$search%' OR cantidad LIKE '%$search% OR proveedores.nombre LIKE '%$search% OR fecha LIKE '%$search%'" ;
 }
 
 // Sentencia para contar el total de registros
@@ -39,7 +42,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entradas</title>
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap.css">
 </head>
 <body> 
 
@@ -86,7 +89,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                         </td>
 
                         <td>
-                            <?= $row['producto_id']?>
+                            <?= $row['nombre_producto']?>
                         </td>
 
                         <td>
@@ -94,7 +97,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                         </td>
 
                         <td>
-                            <?= $row['proveedor_id']?>
+                            <?= $row['nombre_proveedor']?>
                         </td>
 
                         <td>

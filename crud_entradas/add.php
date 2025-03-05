@@ -1,5 +1,10 @@
 <?php
- include 'db.php';
+ include '../db.php';
+
+
+
+ // Obtener proveedor_id de la URL si está presente
+$proveedor_id_seleccionado = isset($_GET['proveedor_id']) ? $_GET['proveedor_id'] : '';
 
  //Instruccion
 
@@ -38,9 +43,10 @@
 
             <div class="bm-3">
                 <label for="proveedor_id" class="form-label">Proveedor</label>
-                <input type="number" name="proveedor_id" class="form-control"  required>
+                <input type="number" name="proveedor_id" class="form-control" value="<?= $proveedor_id_seleccionado ?>" required>
             </div>
 
+            
 
             <button type="submit" class="btn btn-success">Guardar Nueva Entrada</button>
             

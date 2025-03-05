@@ -1,6 +1,8 @@
 <?php
- include 'db.php';
+ include '../db.php';
 
+
+ 
  //Instruccion
 
  if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {

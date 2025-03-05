@@ -1,5 +1,9 @@
 <?php
- include 'db.php';
+ include '../db.php';
+
+ // Obtener la lista de proveedores
+$proveedoresResult = $conn->query("SELECT id, nombre FROM proveedores");
+$proveedores = $proveedoresResult->fetch_all(MYSQLI_ASSOC);
 
  //Instruccion
 
@@ -9,8 +13,9 @@
     $marca = $_POST['marca'];
     $modelo = $_POST['modelo'];
     $caracteristicas = $_POST['caracteristicas'];
+    $proveedor_id = $_POST['proveedor_id'];
 
-    $conn->query("INSERT INTO productos (producto, precio, marca, modelo, caracteristicas) VALUES ('$producto', '$precio', '$marca', '$modelo', '$caracteristicas')");
+    $conn->query("INSERT INTO productos (producto, precio, marca, modelo, caracteristicas, proveedor_id) VALUES ('$producto', '$precio', '$marca', '$modelo', '$caracteristicas', '$proveedor_id')");
     header('Location: index.php');
 }
  ?>
@@ -51,6 +56,20 @@
             <div class="bm-3">
                 <label for="caracteristicas" class="form-label">Caracteristicas</label>
                 <input type="text" name="caracteristicas" class="form-control"  required>
+            </div>
+
+            <!--<div class="bm-3">
+                <label for="caracteristicas" class="form-label">Proveedor</label>
+                <input type="text" name="caracteristicas" class="form-control"  required>
+            </div>-->
+
+            <div class="bm-3">
+                <label for="proveedor_id" class="form-label">Proveedor</label>
+                <select name="proveedor_id" class="form-control" required>
+                    <?php foreach ($proveedores as $proveedor): ?>
+                        <option value="<?= $proveedor['id'] ?>"><?= $proveedor['nombre'] ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <button type="submit" class="btn btn-success">Guardar Nuevo Producto</button>

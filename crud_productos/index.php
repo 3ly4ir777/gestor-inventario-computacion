@@ -8,8 +8,8 @@ $pagina_actual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 $inicio = ($pagina_actual - 1) * $registros_por_pagina;
 
 //sentencia para busqueda de productos
-
 $search = isset($_GET['search']) ? $_GET['search'] : '';
+
 //$sql = "SELECT * FROM productos";
 $sql = "SELECT productos.*, proveedores.nombre AS nombre_proveedor FROM productos LEFT JOIN proveedores ON productos.proveedor_id = proveedores.id";
 if (!empty($search)) {
@@ -29,8 +29,7 @@ $result = $conn->query($sql); //muestra el resultado final de nuestra consulta
 // Calcular el total de páginas
 $total_paginas = ceil($total_registros / $registros_por_pagina);
 
- ?>
-
+?>
 
 <!--estructura HTML-->
 
@@ -40,7 +39,6 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Computacion</title>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="../bootstrap.css">
 </head>
 <body> 
@@ -49,9 +47,9 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
         
         <h1 class = "text-center mb-4">Inventario de Productos</h1>
             <a href="add.php" class="btn btn-primary mb-3">Agregar Nuevo Producto</a> 
-            <a href="export_excel" class="btn btn-success mb-3">Exportar a Excel</a> 
-            <a href="export_pdf" class="btn btn-danger mb-3">Exportar a PDF</a>
-            <a href="../index.php" class="btn btn-primary mb-3">INICIO</a> 
+            <a href="export_excel.php" class="btn btn-success mb-3">Exportar a Excel</a> 
+            <a href="export_pdf.php" class="btn btn-danger mb-3">Exportar a PDF</a>
+            <a href="../index.php" class="btn btn-secondary mb-3">INICIO</a>
 
             <form method="GET" action="" >
                 <div class="input-group">
@@ -78,6 +76,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                     <th>Modelo</th>
                     <th>Caracteristicas</th>
                     <th>Proveedores</th> 
+                    <th>Inventario</th>
                     <th>Acción</th>
 
                 </tr>
@@ -110,18 +109,21 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                             <?= $row['caracteristicas']?>
                         </td>
 
-                        <!-- <td>
-                            <?= $row['proveedor_id']?>
-                        </td>  -->
-
                         <td>
                             <?= $row['nombre_proveedor'] ?>
                         </td>
 
                         <td>
+                            <?= $row['stock'] ?>
+                        </td>
+
+                        <td>
+                            <a href="../crud_entradas/add.php?producto_nombre=<?= urlencode($row['producto']) ?>" class="btn btn-primary">Agregar Mercancia</a>
+
+                            <a href="export_individual_excel.php?id=<?= $row['id'] ?>" class="btn btn-success">Imprimir información</a>
+
                             <a href="edit.php?id=<?= $row['id']?>" class="btn btn-warning">Actualizar Producto</a>
 
-                            <!-- <a href="delete.php?id=<?= $row['id']?>" class="btn btn-danger">Eliminar Produto</a> -->
                             <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">Eliminar Producto</a>
                         </td>
 

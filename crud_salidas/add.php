@@ -1,9 +1,13 @@
 <?php
  include '../db.php';
 
- //Instruccion
+// Obtener la lista de productos
+$productosResult = $conn->query("SELECT id, producto FROM productos");
+$productos = $productosResult->fetch_all(MYSQLI_ASSOC);
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
+//Instruccion de añadir
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
     $producto_id = $_POST['producto_id'];
     $cantidad = $_POST['cantidad'];
     $motivo = $_POST['motivo'];
@@ -26,9 +30,17 @@
         <h1 class = 'text-center mt-4'>Nueva Salida</h1>
             <a href="index.php" class="btn btn-primary">Volver</a>
         <form action=""method = "POST">
-            <div class="bm-3">
+            <!--<div class="bm-3">
                 <label for="producto_id" class="form-label">Producto</label>
                 <input type="number" name="producto_id" class="form-control"  required>
+            </div>-->
+            <div class="bm-3">
+                <label for="producto_id" class="form-label">Producto</label>
+                <select name="producto_id" class="form-control" required>
+                    <?php foreach ($productos as $producto): ?>
+                        <option value="<?= $producto['id'] ?>"><?= $producto['producto'] ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="bm-3">
@@ -41,12 +53,9 @@
                 <input type="text" name="motivo" class="form-control"  required>
             </div>
 
-
             <button type="submit" class="btn btn-success">Registar Nueva Salida</button>
             
-
         </form>
-
 
     </div>
     

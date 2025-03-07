@@ -7,7 +7,6 @@ $id = $_GET['id'];
 $result = $conn->query("SELECT * FROM productos WHERE id= $id");
 $objetoSeleccionado = $result->fetch_assoc();
 
-
 // Obtener la lista de proveedores
 $proveedoresResult = $conn->query("SELECT id, nombre FROM proveedores");
 $proveedores = $proveedoresResult->fetch_all(MYSQLI_ASSOC);
@@ -88,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
             <button type="submit" class="btn btn-success">Actualizar producto</button>
         </form>
-
 
     </div>
     

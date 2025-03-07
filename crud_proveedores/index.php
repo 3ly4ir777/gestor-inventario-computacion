@@ -1,6 +1,6 @@
 <?php
  include '../db.php';
-// $result = $conn->query("SELECT * FROM proveedores")
+//$result = $conn->query("SELECT * FROM proveedores")
 
 // Configuración de paginación
 $registros_por_pagina = 3; // Número de registros por página
@@ -38,7 +38,6 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proveedores</title>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="../bootstrap.css">
 </head>
 <body> 
@@ -47,9 +46,9 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
         
         <h1 class = "text-center mb-4">Lista de Proveedores</h1>
             <a href="add.php" class="btn btn-primary mb-3">Agregar Proveedor</a> 
-            <a href="export_excel" class="btn btn-success mb-3">Exportar a Excel</a> 
-            <a href="export_pdf" class="btn btn-danger mb-3">Exportar a PDF</a> 
-            <a href="../index.php" class="btn btn-primary mb-3">INICIO</a> 
+            <a href="export_excel.php" class="btn btn-success mb-3">Exportar a Excel</a> 
+            <a href="export_pdf.php" class="btn btn-danger mb-3">Exportar a PDF</a> 
+            <a href="../index.php" class="btn btn-secondary mb-3">INICIO</a> 
             <form method="GET" action="" >
                 <div class="input-group">
                     <input type="text" 
@@ -102,9 +101,11 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                         </td>
 
                         <td>
-                            <a href="../crud_entradas/add.php?proveedor_id=<?= $row['id']?>" class="btn btn-success mb-3">Agregar Mercancia</a>
+                            <a href="../crud_entradas/add.php?proveedor_nombre=<?= urlencode($row['nombre']) ?>" class="btn btn-primary">Agregar Mercancia</a>
+                            
+                            <a href="export_individual_excel.php?id=<?= $row['id'] ?>" class="btn btn-success">Imprimir Proveedor</a>
 
-                            <a href="edit.php?id=<?= $row['id']?>" class="btn btn-warning">Editar</a>
+                            <a href="edit.php?id=<?= $row['id']?>" class="btn btn-warning">Actualizar Proveedor</a>
 
                             <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar a este proveedor?')">Eliminar Proveedor</a>
                         </td>

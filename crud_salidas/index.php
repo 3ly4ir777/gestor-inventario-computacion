@@ -13,6 +13,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sql = "SELECT salidas.*, productos.producto AS nombre_producto
 FROM salidas
 LEFT JOIN productos ON salidas.producto_id = productos.id";
+
 if (!empty($search)) {
     $sql .= " WHERE salidas.id LIKE '%$search%' OR productos.producto LIKE '%$search%' OR cantidad LIKE '%$search% OR salidas.motivo LIKE '%$search% OR salidas.fecha LIKE '%$search%'" ;
 }
@@ -49,9 +50,9 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
         
         <h1 class = "text-center mb-4">Salidas de Inventario</h1>
             <a href="add.php" class="btn btn-primary mb-3">Nuevo Registro</a> 
-            <a href="export_excel" class="btn btn-success mb-3">Exportar a Excel</a> 
-            <a href="export_pdf" class="btn btn-danger mb-3">Exportar a PDF</a>
-            <a href="../index.php" class="btn btn-primary mb-3">INICIO</a> 
+            <a href="export_excel.php" class="btn btn-success mb-3">Exportar a Excel</a> 
+            <a href="export_pdf.php" class="btn btn-danger mb-3">Exportar a PDF</a>
+            <a href="../index.php" class="btn btn-secondary mb-3">INICIO</a> 
             <form method="GET" action="" >
                 <div class="input-group">
                     <input type="text" 
@@ -105,9 +106,11 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 
                         
                         <td>
-                            <a href="edit.php?id=<?= $row['id']?>" class="btn btn-warning">Actualizar Salida</a>
+                            <a href="export_individual_excel.php?id=<?= $row['id'] ?>" class="btn btn-success mb-3">Imprimir Salida</a>
 
-                            <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta salida?')">Eliminar Salida</a>
+                            <a href="edit.php?id=<?= $row['id']?>" class="btn btn-warning mb-3">Actualizar Salida</a>
+
+                            <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger mb-3" onclick="return confirm('¿Estás seguro de que quieres eliminar esta salida?')">Eliminar Salida</a>
                         </td>
 
                     </tr>

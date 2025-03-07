@@ -1,13 +1,13 @@
 <?php
  include '../db.php';
 
- // Obtener la lista de proveedores
+// Obtener la lista de proveedores
 $proveedoresResult = $conn->query("SELECT id, nombre FROM proveedores");
 $proveedores = $proveedoresResult->fetch_all(MYSQLI_ASSOC);
 
- //Instruccion
+//Instruccion de añadir
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
     $producto = $_POST['producto'];
     $precio = $_POST['precio'];
     $marca = $_POST['marca'];

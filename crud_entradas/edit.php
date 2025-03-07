@@ -1,11 +1,19 @@
 <?php
 include '../db.php';
 
-//declarar
+//obtener salida seleccionada
 
 $id = $_GET['id'];
 $result = $conn->query("SELECT * FROM entradas WHERE id= $id");
 $objetoSeleccionado = $result->fetch_assoc();
+
+// Obtener la lista de productos
+$productosResult = $conn->query("SELECT id, producto FROM productos");
+$productos = $productosResult->fetch_all(MYSQLI_ASSOC);
+
+// Obtener la lista de proveedores
+$proveedoresResult = $conn->query("SELECT id, nombre FROM proveedores");
+$proveedores = $proveedoresResult->fetch_all(MYSQLI_ASSOC);
 
 //accion al actualizar
 
@@ -34,24 +42,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
         <h1 class = 'text-center mt-4'>Actualizar Registro</h1>
             <a href="index.php" class="btn btn-primary">Volver al Inicio</a>
         <form action="" method = "POST"> 
+            <!-- <div class="bm-3">
+                <label for="producto_id" class="form-label">Producto</label>
+                <input type="number" name="producto_id" class="form-control" value= "<?=$objetoSeleccionado['producto_id'] ?>" required>
+            </div> -->
+
             <div class="bm-3">
                 <label for="producto_id" class="form-label">Producto</label>
-                <input type="number" name="producto_id" class="form-control" 
-                value= "<?=$objetoSeleccionado['producto_id'] ?>"
-                required>
+                <select name="producto_id" class="form-control" required>
+                    <?php foreach ($productos as $producto): ?>
+                        <option value="<?= $producto['id'] ?>" 
+                                <?= $objetoSeleccionado['producto_id'] == $producto['id'] ? 'selected' : '' ?>>
+                            <?= $producto['producto'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
+
+
 
             <div class="bm-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
                 <input type="number" name="cantidad" class="form-control" value= "<?=$objetoSeleccionado['cantidad'] ?>" required>
             </div>
 
-            <div class="bm-3">
+            <!-- <div class="bm-3">
                 <label for="proveedor_id" class="form-label">Proveedor</label>
                 <input type="number" name="proveedor_id" class="form-control" value= "<?=$objetoSeleccionado['proveedor_id'] ?>"  required>
+            </div> -->
+
+            <div class="bm-3">
+                <label for="proveedor_id" class="form-label">Proveedor</label>
+                <select name="proveedor_id" class="form-control" required>
+                    <?php foreach ($proveedores as $proveedor): ?>
+                        <option value="<?= $proveedor['id'] ?>" 
+                                <?= $objetoSeleccionado['proveedor_id'] == $proveedor['id'] ? 'selected' : '' ?>>
+                            <?= $proveedor['nombre'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-
-
 
             <button type="submit" class="btn btn-success">Actualizar Registro</button>
         </form>
